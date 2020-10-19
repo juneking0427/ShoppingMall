@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+@font-face {
+font-family:ng;
+src:url(fonts/NanumGothic.eot); /* IE9 Compat Modes */
+src:url(fonts/NanumGothic.eot?#iefix) format('embedded-opentype'), /* IE7-IE8 */
+	url(fonts/NanumGothic.woff) format('woff'), /* Modern Browsers */
+	url(fonts/NanumGothic.ttf)  format('truetype'); /* Safari, Android, iOS */
+}
+
+html,body{height:100%;overflow-x:hidden;}
+body{margin:0;padding:0;font-family:"나눔고딕",NanumGothic,ng,"돋움",Gulim,"굴림","맑은고딕",AppleGothic,Verdana,Georgia;font-size:12px;line-height:1.2;color:#808080;}
+a{color:#808080;text-decoration:none;}
+hr,legend{display:none;}
+caption{overflow:hidden;visibility:hidden;width:0;height:0;font-size:0;line-height:0;}
+colgroup{background:none;}
+h1,h2,h3,h4,h5,h6{font-size:100%;}
+h1,h2,h3,h4,h5,h6,p,ul,ol,li,dl,dt,dd,form,fieldset,table,caption,tbody,tfoot,thead,tr,th,td,img{margin:0; padding:0; border:0;}
+ul,ol,li{list-style:none;}
+table{clear:both; width:100%; border-spacing:0; border:0; border-collapse:collapse;}
+p,div,th,td{font-size:100%; color:#808080;}
+input,select,textarea,label{vertical-align:middle;}
+img{vertical-align:top;}
+input.type-image,input.type-radio{border:0 none;}
+input,select,textarea{font-family:"나눔고딕",NanumGothic,ng,Dotum,"돋움",Verdana,Georgia; font-size:100%;}
+textarea{resize:none;}
+
+#wrap{position:relative;min-width:1200px;}

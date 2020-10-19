@@ -1,0 +1,87 @@
+${BoardcomView.board_type}
+${BoardcomView.board_cd}
+${BoardcomView.board_type}
+${BoardcomView.board_nm}
+${BoardcomView.board_word}
+${BoardcomView.board_intro}
+${BoardcomView.board_lev}
+${BoardcomView.board_area}
+
+
+${ArtView.content}
+${ArtView.regdate}
+${ArtView.content}
+${ArtView.writer}
+
+
+${item1.content}
+${item1.regdate}
+${item1.content}
+${item1.writer}
+
+${upload}${item1.file_loc}${item1.file_name}
+
+//리스트 
+<a href="/board/detview.do?board_type=${item1.board_type}&board_cd=${item1.board_cd}">
+
+
+//뷰
+
+<a href="/board/detbbs.do?board_type=${BoardDto.board_type}&board_cd=${item.board_cd}&article_no=${item.article_no}">
+
+
+<c:if test="${'11' eq item1.stat or  item1.stat eq null}">
+	<li><img src="${img}/con_cs_btn1_1.png"  alt=""> </li>
+ </c:if>	
+  <c:if test="${'10' eq item1.stat }">
+	<li><img src="${img}/con_cs_btn2_1.png"  alt=""> </li>
+ </c:if>	
+ <c:if test="${'00' eq item1.stat }">
+	<li><img src="${img}/con_cs_btn3_1.png"  alt=""> </li>
+ </c:if>
+ <c:if test='${"1" eq item1.board_lev}'>
+	<li><p class="btn3"><img src="${img}/con_btn3_1.gif" alt=""></p></li>
+ </c:if>	
+ <c:if test='${"2" eq item1.board_lev}'>
+	<li><p class="btn2"><img src="${img}/con_btn2_1.gif" alt=""></p></li>
+ </c:if>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a href="/main.do?typeValue=1" style="float:left;">1:1 타로 카운슬링</a>
+<a href="/main.do?typeValue=4" style="float:left">1:1 색채타로 카운슬링</a>
+<a href="/main.do?typeValue=2" style="float:left">1:1 신점 카운슬링</a>
+
+
+<li><a href="/main.do?typeValue=1"><img src="img/banner02_01.jpg" alt="타로배너" /></a></li>
+<li><a href="/main.do?typeValue=2"><img src="img/banner02_02.jpg" alt="신점배너" /></a></li>
+<li><a href="/main.do?typeValue=3"><img src="img/banner02_03.jpg" alt="역학배너" /></a></li>
+
+
+
+
+<li><a href="/main.do?typeValue=1"><img src="img/footer_category_01.png" alt="" /></a></li>
+<li><a href="/main.do?typeValue=2"><img src="img/footer_category_02.png" alt="" /></a></li>
+<li><a href="/main.do?typeValue=3"><img src="img/footer_category_03.png" alt="" /></a></li>

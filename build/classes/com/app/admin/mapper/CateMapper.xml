@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="CateMapper">
+	
+	<sql id="prefixPage"> SELECT Z.* FROM( </sql>
+	<sql id="postfixPage"> ) Z WHERE Z.rn BETWEEN ((#{maxrow } * (#{page_no } -1)) +1) AND (#{maxrow } * #{page_no }) </sql>
+	
+	<select id="cateList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 
+				CATE_IDX
+		,		CATE_NM
+		,		USE_YN
+		,		RANK
+		,		REG_DTTI
+		,		DEPTH1
+		,		DEPTH2
+		,		DEPTH3 
+		FROM 	CATE_INFO
+		WHERE	RANK = '3'
+		AND		USE_YN = 'Y'
+		<if test="searchName != null and searchName != ''">
+		AND 	DEPTH3 LIKE '%' || #{searchName} || '%'
+		</if>
+	</select>
+
+	<insert id="depth1Reg" parameterType="java.util.HashMap">
+		INSERT INTO CATE_INFO (
+					CATE_NM
+			,		USE_YN
+			,		RANK
+			,		REG_DTTI
+			,		DEPTH1
+			,		DEPTH2
+			,		DEPTH3
+				)
+		VALUES (
+					#{cate_nm}
+			,		#{use_yn}
+			,		#{rank}
+			,		now()
+			,		#{depth1}
+			,		#{depth2}
+			,		#{depth3}
+		)
+	</insert>
+	
+	<select id="depth1List" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 
+				CATE_IDX
+		,		CATE_NM
+		FROM	CATE_INFO
+		WHERE	1=1
+		AND		RANK = '1'
+	</select>
+
+	<select id="depth2List" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 
+				CATE_IDX
+		,		CATE_NM
+		FROM	CATE_INFO
+		WHERE	1=1
+		AND		RANK = '2'
+		AND		DEPTH1 = #{depth1}
+	</select>
+
+	<select id="depth3List" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 
+				CATE_IDX
+		,		CATE_NM
+		FROM	CATE_INFO
+		WHERE	1=1
+		AND		RANK = '3'
+		AND		DEPTH2 = #{depth2}
+	</select>
+	
+	<update id="depthUse" parameterType="java.util.HashMap">
+		UPDATE
+			CATE_INFO
+		SET
+			USE_YN = 'N'
+		WHERE CATE_IDX = #{cate_idx}
+	</update>
+		
+</mapper>

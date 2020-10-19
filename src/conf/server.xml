@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>server Code</comment>
+
+<!-- file upload --> 
+<entry key="upload_file_path">C:\workspace\uct\hancomdc\WebContent\fileStorage\</entry>
+<entry key="upload_host">http://localhost:8080</entry>
+<entry key="upload_url">/fileStorage/</entry>
+
+</properties>

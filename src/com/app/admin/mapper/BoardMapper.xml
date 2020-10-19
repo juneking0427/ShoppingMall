@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+	<mapper namespace="BoardMapper">
+<!-- 	<mapper namespace="com.app.admin.mapper.BoardMapper"> -->
+	
+<!-- 	<sql id="prefixPage"> SELECT Z.* FROM( </sql> -->
+<!-- 	<sql id="postfixPage"> ) Z WHERE Z.rn BETWEEN ((#{maxrow } * (#{page_no } -1)) +1) AND (#{maxrow } * #{page_no }) </sql> -->
+	
+	<select id="boardList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+<!-- 		<include refid="prefixPage"/> -->
+			SELECT
+<!-- 					ROW_NUMBER() OVER(ORDER BY REG_DTTI DESC) AS rn -->
+<!--  					@ROWNUM := @ROWNUM + 1 AS rn, -->
+					A.BOARD_IDX
+			,		A.TITLE
+			,		A.CONTENTS
+			,		A.PRICE
+			,		A.CATE_IDX
+			,		A.REG_DTTI
+			,		B.DEPTH1
+			,		B.DEPTH2
+			,		B.DEPTH3
+			FROM 	BOARD A
+			LEFT OUTER JOIN CATE_INFO B
+			ON A.CATE_IDX = B.CATE_IDX
+			WHERE	1=1
+			<if test="searchName != null and searchName != ''">
+			AND 	A.TITLE LIKE '%' || #{searchName} || '%'
+			</if>
+<!-- 		<include refid="postfixPage"/> -->
+	</select>
+	
+	<select id="boardCnt" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT COUNT(*) FROM BOARD A
+		LEFT OUTER JOIN CATE_INFO B
+		ON A.CATE_IDX = B.CATE_IDX
+		WHERE	1=1
+		<if test="searchName != null and searchName != ''">
+		AND 	A.TITLE LIKE '%' || #{searchName} || '%'
+		</if>
+	</select>
+	
+	<insert id="boardReg" parameterType="java.util.HashMap">
+		INSERT BOARD(
+				TITLE
+		,		CONTENTS
+		,		PRICE
+		,		CATE_IDX
+		,		FILE_IDX
+		,		EXPLAIN_OPTION
+		,		REG_DTTI
+		) VALUES (
+				#{TITLE}
+		,		#{CONTENTS}
+		,		#{PRICE}
+		,		#{CATE_IDX}
+		,		#{FILE_IDX}
+		,		#{EXPLAIN_OPTION}
+		,		now()
+		)
+	</insert>
+	
+	<select id="boardDetail" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 
+				A.TITLE
+		,		A.CONTENTS
+		,		A.PRICE
+		,		A.CATE_IDX
+		,		A.BOARD_IDX
+		,		A.EXPLAIN_OPTION
+		,		C.HOST_NM + C.URL AS FILE_PATH
+<!-- 		,		C.FILE_PATH as FILE_PATH -->
+		,		B.DEPTH1
+		,		B.DEPTH2
+		,		B.DEPTH3
+		FROM 	BOARD A
+		LEFT OUTER JOIN CATE_INFO B
+		ON A.CATE_IDX = B.CATE_IDX
+		LEFT OUTER JOIN FILE_INFO C
+		ON A.FILE_IDX = C.FILE_IDX
+		WHERE A.BOARD_IDX = #{board_idx}
+	</select>
+
+	<update id="boardUpdate" parameterType="java.util.HashMap">
+		UPDATE
+			BOARD
+			SET
+					TITLE = #{TITLE}
+			,		CONTENTS = #{CONTENTS}
+			,		PRICE = #{PRICE}
+			WHERE 	BOARD_IDX = #{BOARD_IDX}	
+	</update>
+	
+	<insert id="fileReg" parameterType="java.util.HashMap">
+		<selectKey resultType="String" keyProperty="file_idx" order="BEFORE">
+			SELECT MAX(file_idx)+1 FROM FILE_INFO
+		</selectKey>
+			INSERT INTO FILE_INFO( 
+						HOST_NM
+			,			URL
+			,			FILE_PATH
+			,			FILE_NAME
+			,			REG_DTTI
+			) VALUES (
+						#{host_nm}
+			,			#{url}
+			,			#{file_path}
+			,			#{file_name}
+			,			now()					
+			)
+	</insert>
+	
+</mapper>

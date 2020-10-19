@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.app.common.mapper.FileMapper">
+<!-- <mapper namespace="com.app.common.mapper.FileMapper"> -->
+
+	<insert id="insertFile" parameterType="com.app.commonVo.FileVo">
+	<!-- 	/* MessageMapper.insertFile*/ -->
+		<selectKey keyProperty="file_idx" resultType="String" order="AFTER">
+		INSERT INTO FILE_INFO (	
+					HOST_NM
+		,			URL
+		,			FILE_PATH
+		,			FILE_NAME
+		,			REG_DTTI
+		)
+		VALUES (	
+					#{host}
+		,			#{url}
+		,			#{file_path}
+		,			#{file_name}
+		,			now()
+		)
+		SELECT	SCOPE_IDENTITY()
+		</selectKey>
+	</insert>
+	
+	<update id="updateFile" parameterType="com.app.commonVo.FileVo" >
+	<!-- 	/* MessageMapper.updateFile*/ -->
+		UPDATE FILE_INFO
+		SET		HOST			= #{host}
+		,			URL			= #{url}
+		,			FILE_PATH	= #{file_path}
+		,			FILE_NAME	= #{file_name}
+		WHERE 	IDX 	= #{idx}
+	</update>
+	
+	<delete id="deleteFile" parameterType="String">
+	<!-- 	/* MessageMapper.deleteFile*/ -->
+		DELETE 
+		FROM 	FILE_INFO
+		WHERE 	IDX 	= #{idx}
+	</delete>
+
+</mapper>

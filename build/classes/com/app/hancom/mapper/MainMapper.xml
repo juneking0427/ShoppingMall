@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+	<mapper namespace="MainMapper">
+	
+	<select id="mainList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 		
+					A.BOARD_IDX
+		,			A.TITLE
+		,			A.PRICE
+		,			C.HOST_NM + C.URL AS FILE_PATH
+		,			B.DEPTH1
+		,			B.DEPTH2
+		,			B.DEPTH3
+		FROM 		BOARD A
+		LEFT OUTER JOIN CATE_INFO B
+		ON A.CATE_IDX = B.CATE_IDX
+		LEFT OUTER JOIN FILE_INFO C
+		ON A.FILE_IDX = C.FILE_IDX
+		WHERE	1=1
+		<if test="searchName != null and searchName != ''">
+			AND 	A.TITLE LIKE '%' || #{searchName} || '%'
+		</if>
+	</select>
+	
+	<select id="depth1List"  parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT DISTINCT DEPTH1	FROM CATE_INFO
+		WHERE RANK = '1'
+	</select>
+
+	<select id="depth2List"  parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT DEPTH1, DEPTH2 FROM CATE_INFO 
+		WHERE RANK = '2'
+	</select>
+
+	<select id="depth3List" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT DEPTH2, DEPTH3, CATE_IDX FROM CATE_INFO 
+		WHERE RANK = '3'
+	</select>
+	
+	<select id="selectList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 
+				A.BOARD_IDX
+		,		A.TITLE
+		,		A.CONTENTS
+		,		A.PRICE
+		,		A.CATE_IDX
+		,		A.EXPLAIN_OPTION
+		,		B.DEPTH1
+		,		B.DEPTH2
+		,		B.DEPTH3
+		,		C.HOST_NM + C.URL AS FILE_PATH
+		FROM BOARD A
+		LEFT OUTER JOIN CATE_INFO B
+		ON A.CATE_IDX = B.CATE_IDX
+		LEFT OUTER JOIN FILE_INFO C
+		ON A.FILE_IDX = C.FILE_IDX
+		WHERE A.CATE_IDX = '26'
+<!-- 		WHERE A.CATE_IDX = #{CATE_IDX} -->
+	</select>
+	
+	<select id="boardDetail" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 
+				A.BOARD_IDX
+		,		A.TITLE
+		,		A.CONTENTS
+		,		A.PRICE
+		,		A.CATE_IDX
+		,		A.EXPLAIN_OPTION
+		,		B.DEPTH1
+		,		B.DEPTH2
+		,		B.DEPTH3
+		,		C.HOST_NM + C.URL AS FILE_PATH
+		FROM BOARD A
+		LEFT OUTER JOIN CATE_INFO B
+		ON A.CATE_IDX = B.CATE_IDX
+		LEFT OUTER JOIN FILE_INFO C
+		ON A.FILE_IDX = C.FILE_IDX
+		WHERE A.BOARD_IDX = '10'
+<!--		WHERE A.BOARD_IDX = #{BOARD_IDX} -->
+	</select>
+	
+	<insert id="loginReg" parameterType="java.util.HashMap">
+		INSERT MEMBER(
+				MEMBER_ID
+		,		MEMBER_PW
+		,		MEMBER_JUSO
+		,		MEMBER_MAIL
+		,		RANK
+		,		REG_DTTI
+		) VALUES (
+				#{member_id}
+		,		#{member_pw}
+		,		#{member_juso}
+		,		#{member_mail}
+		,		#{rank}
+		,		now()
+		)
+	</insert>
+	
+	<select id="MberCnt" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT COUNT(*) 
+		FROM MEMBER
+		WHERE MEMBER_ID = #{MBER_ID}
+		AND MEMBER_PW = #{MBER_PW}
+	</select>
+</mapper>
